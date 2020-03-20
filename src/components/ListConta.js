@@ -9,7 +9,12 @@ export default class ListConta extends Component {
 
         this.state = {
             contas: [],
-            cadContaShow: false
+            cadContaShow: false,
+            edicao: false,
+            id: null,
+            descricao: null,
+            numero: null,
+            saldo: null
         }
     }
 
@@ -42,6 +47,7 @@ export default class ListConta extends Component {
                             <th>Descricao</th>
                             <th>Número</th>
                             <th>Saldo</th>
+                            <th>Opção</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -51,18 +57,42 @@ export default class ListConta extends Component {
                                 <td>{conta.descricao}</td>
                                 <td>{conta.numero}</td>
                                 <td>{conta.saldo}</td>
+                                <td>
+                                    <ButtonToolbar>
+                                        <Button className='mr-2' variant='info'
+                                            onClick={() => {
+                                                this.setState({
+                                                    cadContaShow: true,
+                                                    edicao: true,
+                                                    ...conta
+                                                })
+                                            }}
+                                        >Editar</Button>
+                                    </ButtonToolbar>
+                                </td>
                             </tr>
                         )}
                     </tbody>
                 </Table>
                 <ButtonToolbar>
                     <Button variant='primary'
-                        onClick={() => { this.setState({ cadContaShow: true }) }}
-                    > Nova Conta </Button>
+                        onClick={() => {
+                            this.setState({
+                                cadContaShow: true,
+                                id: null,
+                                descricao: null,
+                                numero: null,
+                                saldo: null,
+                                edicao: false
+                            })
+                        }}>
+                        Nova Conta
+                    </Button>
 
                     <CadConta
                         show={this.state.cadContaShow}
                         onHide={cadContaClose}
+                        {...this.state}
                     />
                 </ButtonToolbar>
             </>

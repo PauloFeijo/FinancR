@@ -19,8 +19,16 @@ export default class CadConta extends Component {
   handleSubmit(event) {
     event.preventDefault()
 
-    fetch('http://localhost:4000/conta', {
-      method: 'POST',
+    let uri = 'http://localhost:4000/conta'
+    let method = 'POST'
+
+    if (this.props.edicao) {
+      uri = uri + '/' + this.props.id
+      method = 'PUT'
+    }
+
+    fetch(uri, {
+      method: method,
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
@@ -56,16 +64,25 @@ export default class CadConta extends Component {
           centered
         >
           <Modal.Header closeButton>
-            <Modal.Title id="contained-modal-title-vcenter">Cadastro de Conta</Modal.Title>
+            <Modal.Title id="contained-modal-title-vcenter">
+              {this.props.edicao ? 'Editar conta' : 'Nova conta'}
+            </Modal.Title>
           </Modal.Header>
 
           <Modal.Body>
             <Form onSubmit={this.handleSubmit}>
 
-              <Field size="4" name="id" label="Id" readOnly />
-              <Field size="12" name="descricao" label="Descrição" required />
-              <Field size="4" name="numero" label="Número" />
-              <Field size="4" name="saldo" label="Saldo" readOnly />
+              <Field size="4" name="id" label="Id" readOnly
+                defaultValue={this.props.id} />
+
+              <Field size="12" name="descricao" label="Descrição" required 
+              defaultValue={this.props.descricao} />
+
+              <Field size="4" name="numero" label="Número" 
+              defaultValue={this.props.numero} />
+
+              <Field size="4" name="saldo" label="Saldo" readOnly 
+              defaultValue={this.props.saldo} />
 
               <Form.Group>
                 <Button variant="primary" type="submit"> Salvar </Button>

@@ -9,8 +9,7 @@ export default class Message extends Component {
             <Snackbar
                 {...this.props}
                 open={this.props.opened}
-                anchorOrigin={{ vertical: 'center', horizontal: 'center' }}
-                autoHideDuration={3000}
+                autoHideDuration={2000}
                 message={<span id="message-id">{this.props.message}</span>}
                 action={[
                     <IconButton
