@@ -1,0 +1,1 @@
+sudo npx create-react-app financ2 : cria o projeto
