@@ -1,6 +1,7 @@
 import React from 'react'
-import Navigation from './components/Navigation'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
+import Navigation from './components/Navigation'
+import ListConta from './components/ListConta'
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Navigation />
 
         <Switch>
+          <Route path='/conta' component={ListConta} exact />
         </Switch>
 
       </div>
