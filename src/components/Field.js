@@ -2,10 +2,6 @@ import React, { Component } from 'react'
 import { Row, Col, Form, } from 'react-bootstrap'
 
 export default class Field extends Component {
-    constructor(props) {
-        super(props)
-    }
-
     render() {
         return (
             <Row>

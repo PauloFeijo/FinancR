@@ -34,6 +34,22 @@ export default class ListConta extends Component {
         this.consultar()
     }
 
+    excluir(contaId) {
+        if (!window.confirm('Confirma a exclusão da conta?')) return
+
+        fetch('http://localhost:4000/conta/' + contaId, {
+            method: 'DELETE',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(null,
+                (error) => {
+                    alert('Falha ao excluir conta! Verifique se o servidor está ativo.')
+                })
+    }
+
     render() {
         const { contas } = this.state
         let cadContaClose = () => this.setState({ cadContaShow: false })
@@ -68,6 +84,9 @@ export default class ListConta extends Component {
                                                 })
                                             }}
                                         >Editar</Button>
+                                        <Button className='mr-2'
+                                            onClick={() => this.excluir(conta.id)}
+                                        >Excluir</Button>
                                     </ButtonToolbar>
                                 </td>
                             </tr>
