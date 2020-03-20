@@ -1,7 +1,7 @@
 import React from 'react'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import Navigation from './components/Navigation'
-import ListConta from './components/ListConta'
+import ListConta from './pages/ListConta'
 
 function App() {
   return (

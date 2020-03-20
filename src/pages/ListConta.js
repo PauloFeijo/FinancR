@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Button, ButtonToolbar, Table } from 'react-bootstrap'
 import CadConta from './CadConta'
+const config = require('../conf/config')
 
 export default class ListConta extends Component {
 
@@ -23,7 +24,7 @@ export default class ListConta extends Component {
     }
 
     consultar() {
-        fetch('http://localhost:4000/conta')
+        fetch('http://' + config.server + ':' + config.portServer + '/conta')
             .then(res => res.json())
             .then(data => {
                 this.setState({ contas: data })
@@ -37,7 +38,7 @@ export default class ListConta extends Component {
     excluir(contaId) {
         if (!window.confirm('Confirma a exclusão da conta?')) return
 
-        fetch('http://localhost:4000/conta/' + contaId, {
+        fetch('http://' + config.server + ':' + config.portServer + '/conta/' + contaId, {
             method: 'DELETE',
             headers: {
                 'Accept': 'application/json',

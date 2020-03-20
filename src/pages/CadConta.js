@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import { Modal, Button, Form } from 'react-bootstrap'
-import Field from './Field'
-import Message from './Message'
+import Field from '../components/Field'
+import Message from '../components/Message'
+const config = require('../conf/config')
 
 export default class CadConta extends Component {
 
@@ -19,7 +20,7 @@ export default class CadConta extends Component {
   handleSubmit(event) {
     event.preventDefault()
 
-    let uri = 'http://localhost:4000/conta'
+    let uri = 'http://' + config.server + ':' + config.portServer + '/conta'
     let method = 'POST'
 
     if (this.props.edicao) {
