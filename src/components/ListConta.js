@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Button, ButtonToolbar, Table } from 'react-bootstrap'
-
+import CadConta from './CadConta'
 
 export default class ListConta extends Component {
 
@@ -8,7 +8,8 @@ export default class ListConta extends Component {
         super(props)
 
         this.state = {
-            contas: []
+            contas: [],
+            cadContaShow: false
         }
     }
 
@@ -24,8 +25,13 @@ export default class ListConta extends Component {
             })
     }
 
+    componentDidUpdate() {
+        this.consultar()
+    }
+
     render() {
         const { contas } = this.state
+        let cadContaClose = () => this.setState({ cadContaShow: false })
 
         return (
             <>
@@ -49,6 +55,16 @@ export default class ListConta extends Component {
                         )}
                     </tbody>
                 </Table>
+                <ButtonToolbar>
+                    <Button variant='primary'
+                        onClick={() => { this.setState({ cadContaShow: true }) }}
+                    > Nova Conta </Button>
+
+                    <CadConta
+                        show={this.state.cadContaShow}
+                        onHide={cadContaClose}
+                    />
+                </ButtonToolbar>
             </>
         )
     }
