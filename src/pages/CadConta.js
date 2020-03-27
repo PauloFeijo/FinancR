@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Modal, Button, Form } from 'react-bootstrap'
 import Field from '../components/Field'
 import Message from '../components/Message'
-const config = require('../conf/config')
+import api from '../services/api'
 
 export default class CadConta extends Component {
 
@@ -20,32 +20,26 @@ export default class CadConta extends Component {
   handleSubmit(event) {
     event.preventDefault()
 
-    let uri = 'http://' + config.server + ':' + config.portServer + '/conta'
-    let method = 'POST'
-
-    if (this.props.edicao) {
-      uri = uri + '/' + this.props.id
-      method = 'PUT'
+    const data = {
+      descricao: event.target.descricao.value,
+      numero: event.target.numero.value
     }
 
-    fetch(uri, {
-      method: method,
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        descricao: event.target.descricao.value,
-        numero: event.target.numero.value,
+    let method = 'post'
+    let resource = 'conta'
+    if (this.props.edicao) {
+      method = 'put'
+      resource = `conta\\${this.props.id}`
+    }    
+
+    api[method](resource, data)
+    .then(() => {
+      this.mensagem('Salvo com sucesso!')
+      this.props.onHide()
+    },
+      (error) => {
+        this.mensagem('Falha ao salvar! Verifique se o servidor está ativo.')
       })
-    })
-      .then(() => {
-        this.mensagem('Salvo com sucesso!')
-        this.props.onHide()
-      },
-        (error) => {
-          this.mensagem('Falha ao salvar! Verifique se o servidor está ativo.')
-        })
   }
 
   render() {

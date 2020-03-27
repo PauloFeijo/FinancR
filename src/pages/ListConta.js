@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Button, ButtonToolbar, Table } from 'react-bootstrap'
 import CadConta from './CadConta'
-const config = require('../conf/config')
+import api from '../services/api'
 
 export default class ListConta extends Component {
 
@@ -24,36 +24,32 @@ export default class ListConta extends Component {
     }
 
     consultar() {
-        fetch('http://' + config.server + ':' + config.portServer + '/conta')
-            .then(res => res.json())
-            .then(data => {
-                this.setState({ contas: data })
-            })
-    }
-
-    componentDidUpdate() {
-        this.consultar()
+        api.get("conta")
+        .then(res => {
+            this.setState({ contas: res.data })
+        })
     }
 
     excluir(contaId) {
         if (!window.confirm('Confirma a exclusão da conta?')) return
 
-        fetch('http://' + config.server + ':' + config.portServer + '/conta/' + contaId, {
-            method: 'DELETE',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            }
-        })
-            .then(null,
-                (error) => {
-                    alert('Falha ao excluir conta! Verifique se o servidor está ativo.')
-                })
+        api.delete(`conta\\${contaId}`)
+    
+        .then(() => {
+            this.consultar()
+        },
+        (error) => {
+            alert('Falha ao excluir conta! Verifique se o servidor está ativo.')
+        })        
     }
 
     render() {
         const { contas } = this.state
-        let cadContaClose = () => this.setState({ cadContaShow: false })
+
+        let cadContaClose = () => {
+            this.setState({ cadContaShow: false })
+            this.consultar()
+        }
 
         return (
             <>
@@ -118,4 +114,5 @@ export default class ListConta extends Component {
             </>
         )
     }
+    
 }

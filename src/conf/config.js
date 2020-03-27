@@ -1,6 +1,6 @@
 module.exports = {
-    portServer: 8080,
+    portServer: 1000,
     server: 'localhost',
-    port: 80 // change in .env PORT
+    port: 2000 // change in .env PORT
   };
   
