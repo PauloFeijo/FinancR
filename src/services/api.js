@@ -2,7 +2,7 @@ import axios from 'axios'
 const config = require('../conf/config')
 
 const api = axios.create({
-    baseURL:`http://${config.server}:${config.portServer}`
+    baseURL:`${config.backendProtocol}://${config.backendHost}:${config.backendPort}`
 })
 
 export default api

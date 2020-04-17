@@ -1,6 +1,7 @@
 module.exports = {
-    portServer: 1000,
-    server: 'localhost',
-    port: 2000 // change in .env PORT
+    backendPort: 44336,
+    backendProtocol: 'https',
+    backendHost: 'localhost',
+    port: 2000 // change in .env PORT    
   };
   
