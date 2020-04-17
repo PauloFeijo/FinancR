@@ -2,6 +2,7 @@ import React from 'react'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import Navigation from './components/Navigation'
 import ListConta from './pages/ListConta'
+import ListCategoria from './pages/ListCategoria'
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
 
         <Switch>
           <Route path='/conta' component={ListConta} exact />
+          <Route path='/categoria' component={ListCategoria} exact />
         </Switch>
 
       </div>
