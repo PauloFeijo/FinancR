@@ -13,14 +13,16 @@ export default class Navigation extends Component {
                             to="/">Home</NavLink>
 
                         <NavLink className="d-inline p-2 bg-dark text-white"
-                            to="/conta">Conta</NavLink>
+                            to="/conta">Contas</NavLink>
 
                         <NavLink className="d-inline p-2 bg-dark text-white"
-                            to="/categoria">Categoria</NavLink>                            
+                            to="/categoria">Categorias</NavLink>     
+
+                        <NavLink className="d-inline p-2 bg-dark text-white"
+                            to="/lancamento">Lançamentos</NavLink>                                                   
                     </Nav>
                 </Navbar.Collapse>
             </Navbar>
-
         )
     }
 }
