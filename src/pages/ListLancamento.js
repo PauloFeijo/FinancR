@@ -93,7 +93,7 @@ export default class ListLancamento extends Component {
                                                 })
                                             }}
                                         >Editar</Button>
-                                        <Button className='mr-2'
+                                        <Button className='mr-2' variant='danger'
                                             onClick={() => this.excluir(lancamento.id)}
                                         >Excluir</Button>
                                     </ButtonToolbar>

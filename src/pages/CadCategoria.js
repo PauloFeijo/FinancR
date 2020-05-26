@@ -91,7 +91,8 @@ export default class CadCategoria extends Component {
           </Modal.Body>
 
           <Modal.Footer>
-            <Button onClick={this.props.onHide}>Cancelar</Button>
+            <Button variant="secondary" 
+              onClick={this.props.onHide}>Cancelar</Button>
           </Modal.Footer>
 
         </Modal>

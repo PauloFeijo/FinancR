@@ -69,7 +69,7 @@ export default class ListConta extends Component {
                                 <td>{conta.id}</td>
                                 <td>{conta.descricao}</td>
                                 <td>{conta.numero}</td>
-                                <td>{conta.saldo}</td>
+                                <td>{new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(conta.saldo)}</td>
                                 <td>
                                     <ButtonToolbar>
                                         <Button className='mr-2' variant='info'
@@ -81,7 +81,7 @@ export default class ListConta extends Component {
                                                 })
                                             }}
                                         >Editar</Button>
-                                        <Button className='mr-2'
+                                        <Button className='mr-2' variant='danger'
                                             onClick={() => this.excluir(conta.id)}
                                         >Excluir</Button>
                                     </ButtonToolbar>

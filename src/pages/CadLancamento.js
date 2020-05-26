@@ -4,6 +4,7 @@ import Field from '../components/Field'
 import Message from '../components/Message'
 import api from '../services/api'
 import { format, parse } from 'date-fns';
+import FieldDropDownDataBind from '../components/FieldDropDownDataBind'
 
 export default class CadLancamento extends Component {
 
@@ -23,11 +24,10 @@ export default class CadLancamento extends Component {
 
     const data = {
       descricao: event.target.descricao.value,
-      tipo: "Receita",
       valor: event.target.valor.value,
       data: parse(event.target.data.value, 'dd/MM/yyyy HH:mm', new Date(), 'pt-br'),
-      contaId: event.target.contaId.value,
-      categoriaId: event.target.categoriaId.value
+      contaId: event.target.conta.value,
+      categoriaId: event.target.categoria.value
     }
 
     let method = 'post'
@@ -75,11 +75,15 @@ export default class CadLancamento extends Component {
               <Field size="4" name="id" label="Id" readOnly
                 defaultValue={this.props.id} />  
 
-              <Field size="12" name="categoriaId" label="Categoria"  
-                defaultValue={this.props.categoriaId} />
+              <FieldDropDownDataBind                
+                size="12" name="conta" label="Conta" 
+                resource="conta" value={this.props.contaId}  
+              />    
 
-              <Field size="12" name="contaId" label="Conta"  
-                defaultValue={this.props.contaId} />
+              <FieldDropDownDataBind
+                size="12" name="categoria" label="Categoria" 
+                resource="categoria" value={this.props.categoriaId} 
+              />                           
 
               <Field size="12" name="descricao" label="Descrição" required 
               defaultValue={this.props.descricao} />
@@ -99,7 +103,8 @@ export default class CadLancamento extends Component {
           </Modal.Body>
 
           <Modal.Footer>
-            <Button onClick={this.props.onHide}>Cancelar</Button>
+            <Button variant="secondary" 
+              onClick={this.props.onHide}>Cancelar</Button>
           </Modal.Footer>
 
         </Modal>
