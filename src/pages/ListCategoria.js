@@ -14,7 +14,8 @@ export default class ListCategoria extends Component {
             edicao: false,
             id: null,
             descricao: null,
-            tipo: null
+            tipo: null,
+            paiId: null
         }
     }
 
@@ -88,13 +89,14 @@ export default class ListCategoria extends Component {
                     </tbody>
                 </Table>
                 <ButtonToolbar>
-                    <Button className='mr-2' variant='info'
+                    <Button variant='primary'
                         onClick={() => {
                             this.setState({
                                 cadCategoriaShow: true,
                                 id: null,
                                 descricao: null,
                                 tipo: null,
+                                paiId: null,
                                 edicao: false
                             })
                         }}>

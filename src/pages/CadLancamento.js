@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Modal, Button, Form,  Row, Col } from 'react-bootstrap'
+import { Modal, Button, Form} from 'react-bootstrap'
 import Field from '../components/Field'
 import Message from '../components/Message'
 import api from '../services/api'

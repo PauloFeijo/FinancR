@@ -1,12 +1,13 @@
 import React, { Component } from 'react'
-import { Row, Col, Form, Dropdown } from 'react-bootstrap'
+import { Row, Col, Form } from 'react-bootstrap'
 import api from '../services/api'
 
 export default class FieldDropDownDataBind extends Component {
 
     state = {
         itens: [],
-        selecionado: this.props.value
+        selecionado: this.props.value,
+        onSelecionar: this.props.onSelecionar
     };
       
     componentDidMount() {        
@@ -23,6 +24,15 @@ export default class FieldDropDownDataBind extends Component {
           });
       }
 
+      selecionar(e) {
+        this.setState({selecionado: e.target.value})
+
+        if (this.state.onSelecionar == undefined) return
+
+        let itemSelecionado = this.state.itens.filter(c => c.id == e.target.value)[0]
+        this.state.onSelecionar(itemSelecionado)
+      }
+
     render() {
         return (
             <Row>
@@ -32,7 +42,7 @@ export default class FieldDropDownDataBind extends Component {
                         <Form.Control as="select" 
                             {...this.props}
                             value={this.state.selecionado}
-                            onChange={e => this.setState({selecionado: e.target.value})}
+                            onChange={e => this.selecionar(e)}
                         >
                             {this.state.itens.map(item => 
                                 <option 

@@ -2,16 +2,21 @@ import React, { Component } from 'react'
 import { Modal, Button, Form } from 'react-bootstrap'
 import Field from '../components/Field'
 import FieldDropDown from '../components/FieldDropDown'
+import FieldDropDownDataBind from '../components/FieldDropDownDataBind'
 import Message from '../components/Message'
 import api from '../services/api'
 
 export default class CadCategoria extends Component {
 
+  state = {
+    messageVisible: false, 
+    message: ''
+  };
+
   constructor(props) {
     super(props)
-
-    this.state = { messageVisible: false, message: '' }
     this.handleSubmit = this.handleSubmit.bind(this)
+    this.onSelecionarCategoria = this.onSelecionarCategoria.bind(this)
   }
 
   messageClose = (event) => this.setState({ messageVisible: false })
@@ -21,12 +26,10 @@ export default class CadCategoria extends Component {
   handleSubmit(event) {
     event.preventDefault()
 
-    console.log(event.target.descricao.value)
-    console.log(event.target.tipo.value)
-
     const data = {
       descricao: event.target.descricao.value,
-      tipo: event.target.tipo.value
+      tipo: event.target.tipo.value,
+      paiId: event.target.paiId.value
     }
 
     let method = 'post'
@@ -46,9 +49,13 @@ export default class CadCategoria extends Component {
         })
   }
 
+  onSelecionarCategoria(cat){
+    this.setState({tipo: cat.tipo})
+  }
+
   render() {
     return (
-      <div className="categoriainer">
+      <div className="container">
 
         <Message
           opened={this.state.messageVisible}
@@ -59,11 +66,11 @@ export default class CadCategoria extends Component {
         <Modal
           {...this.props}
           size="lg"
-          aria-labelledby="categoriained-modal-title-vcenter"
+          aria-labelledby="contained-modal-title-vcenter"
           centered
         >
           <Modal.Header closeButton>
-            <Modal.Title id="categoriained-modal-title-vcenter">
+            <Modal.Title id="contained-modal-title-vcenter">
               {this.props.edicao ? 'Editar categoria' : 'Nova categoria'}
             </Modal.Title>
           </Modal.Header>
@@ -77,9 +84,16 @@ export default class CadCategoria extends Component {
               <Field size="12" name="descricao" label="Descrição" required
                 defaultValue={this.props.descricao} />
 
+              <FieldDropDownDataBind
+                size="12" name="paiId" label="Pai" 
+                resource="categoria" value={this.props.paiId} 
+                onSelecionar={this.onSelecionarCategoria}
+              />                     
+
               <FieldDropDown size="4" name="tipo" label="Tipo" required
                 options={["Receita", "Despesa"]}
                 defaultValue={this.props.tipo}
+                value={this.state.tipo}
               />
 
               <Form.Group>
