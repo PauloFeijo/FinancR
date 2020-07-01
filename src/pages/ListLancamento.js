@@ -18,8 +18,10 @@ export default class ListLancamento extends Component {
             tipo: null,
             valor: null,
             data: null,
-            conta: null,
-            categoria: null
+            contaId: null,
+            categoriaId: null,
+            contaDescricao: null,
+            categoriaDescricao: null
         }
     }
 
@@ -43,7 +45,7 @@ export default class ListLancamento extends Component {
             this.consultar()
         },
         (error) => {
-            alert('Falha ao excluir lancamento! Verifique se o servidor está ativo.')
+            alert('Falha ao excluir lancamento! Verifique se o servidor está ativo ou se há relacionamentos.')
         })        
     }
 

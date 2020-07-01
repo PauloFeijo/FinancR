@@ -5,6 +5,8 @@ import api from '../services/api'
 
 export default class ListCategoria extends Component {
 
+    tree = []
+
     constructor(props) {
         super(props)
 
@@ -23,10 +25,31 @@ export default class ListCategoria extends Component {
         this.consultar()
     }
 
+    montarArvore(src, pai, nvl) {
+        console.log('montar arvore pai '+pai)
+    
+        let childs = src.filter(c => c.paiId == pai)
+
+        console.log(childs)
+
+        childs.map(c => {
+            c.descricaoTree = nvl + c.descricao
+            this.tree.push(c)
+            this.montarArvore(src, c.id, nvl + '.....')
+        })        
+
+        return this.tree
+    }
+       
+
     consultar() {
         api.get("categoria")
             .then(res => {
-                this.setState({ categorias: res.data })
+                this.tree = []
+                this.montarArvore(res.data, null, '')
+                console.log('Arvore criada: ')
+                console.log(this.tree)
+                this.setState({ categorias: this.tree })
             })
     }
 
@@ -39,7 +62,7 @@ export default class ListCategoria extends Component {
                 this.consultar()
             },
                 (error) => {
-                    alert('Falha ao excluir categoria! Verifique se o servidor está ativo.')
+                    alert('Falha ao excluir categoria! Verifique se o servidor está ativo ou se há relacionamentos.')
                 })
     }
 
@@ -66,7 +89,7 @@ export default class ListCategoria extends Component {
                         {categorias.map(categoria =>
                             <tr key={categoria.id}>
                                 <td>{categoria.id}</td>
-                                <td>{categoria.descricao}</td>
+                                <td>{categoria.descricaoTree}</td>
                                 <td>{categoria.tipo}</td>
                                 <td>
                                     <ButtonToolbar>

@@ -39,7 +39,7 @@ export default class ListConta extends Component {
             this.consultar()
         },
         (error) => {
-            alert('Falha ao excluir conta! Verifique se o servidor está ativo.')
+            alert('Falha ao excluir conta! Verifique se o servidor está ativo ou se há relacionamentos.')
         })        
     }
 
