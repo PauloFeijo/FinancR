@@ -4,6 +4,7 @@ import Navigation from './components/Navigation'
 import ListConta from './pages/ListConta'
 import ListCategoria from './pages/ListCategoria'
 import ListLancamento from './pages/ListLancamento'
+import ListTransferencia from './pages/ListTransferencia'
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           <Route path='/conta' component={ListConta} exact />
           <Route path='/categoria' component={ListCategoria} exact />
           <Route path='/lancamento' component={ListLancamento} exact />
+          <Route path='/transferencia' component={ListTransferencia} exact />
         </Switch>
 
       </div>
