@@ -1,9 +1,9 @@
-import React, { Component } from 'react'
-import { Button, ButtonToolbar, Table } from 'react-bootstrap'
+import React, { Component, StyleSheet } from 'react'
+import { Button, ButtonToolbar, Table, Row, Col, Form, Alert } from 'react-bootstrap'
 import CadLancamento from './CadLancamento'
 import api from '../services/api'
-import { format } from 'date-fns';
-
+import { format, parse } from 'date-fns';
+import './ListLancamento.css'
 export default class ListLancamento extends Component {
 
     constructor(props) {
@@ -21,8 +21,12 @@ export default class ListLancamento extends Component {
             contaId: null,
             categoriaId: null,
             contaDescricao: null,
-            categoriaDescricao: null
+            categoriaDescricao: null,
+            dataInicioFiltro: new Date(new Date().getFullYear(), new Date().getMonth(), 1),
+            dataFinalFiltro: new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0)
         }
+
+        this.changeFiltroData = this.changeFiltroData.bind(this);
     }
 
     componentDidMount() {
@@ -30,7 +34,9 @@ export default class ListLancamento extends Component {
     }
 
     consultar() {
-        api.get("lancamento")
+        let dataInicial = format(new Date(this.state.dataInicioFiltro), 'dd-MM-yyyy')
+        let dataFinal = format(new Date(this.state.dataFinalFiltro), 'dd-MM-yyyy')
+        api.get(`lancamento?dini=${dataInicial}&dfin=${dataFinal}`)
         .then(res => {
             this.setState({ lancamentos: res.data })
         })
@@ -49,6 +55,19 @@ export default class ListLancamento extends Component {
         })        
     }
 
+    changeFiltroData(e){ 
+        try {
+            format(new Date(e.target.value), 'yyyy-MM-dd')                
+        } catch (error) {
+            alert('Data inválida!')
+            e.target.value = format(new Date(this.state[e.target.name]), 'yyyy-MM-dd')
+            return                
+        }               
+        let data = parse(e.target.value, 'yyyy-MM-dd', new Date(), 'pt-br') 
+        this.setState({ [e.target.name]: data })
+        this.consultar()      
+    }
+
     render() {
         const { lancamentos } = this.state
 
@@ -59,6 +78,15 @@ export default class ListLancamento extends Component {
 
         return (
             <>
+                <div className="painel-periodo">
+                    Período: 
+                    <input type="date" onBlur={this.changeFiltroData} name="dataInicioFiltro" className="edit-periodo"                       
+                        defaultValue={format(new Date(this.state.dataInicioFiltro), 'yyyy-MM-dd')}/> a
+
+                    <input type="date" onBlur={this.changeFiltroData} name="dataFinalFiltro" className="edit-periodo"
+                        defaultValue={format(new Date(this.state.dataFinalFiltro), 'yyyy-MM-dd')}/>
+                </div>
+
                 <Table className="mt-04" striped bordered hover size="sm">
                     <thead>
                         <tr>
@@ -103,6 +131,19 @@ export default class ListLancamento extends Component {
                             </tr>
                         )}
                     </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="5"></td>
+                            <th>Total</th>
+                            <td>{                            
+                                new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(
+                                    lancamentos.filter(l => l.tipo == 'Receita').reduce((total, lanc, i) => total + lanc.valor, 0) -
+                                    lancamentos.filter(l => l.tipo == 'Despesa').reduce((total, lanc, i) => total + lanc.valor, 0)
+                                )                                                    
+                            }</td>
+                            <td></td>
+                        </tr>
+                    </tfoot>
                 </Table>
                 <ButtonToolbar>
                     <Button variant='primary'
